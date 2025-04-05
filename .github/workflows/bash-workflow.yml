@@ -1,0 +1,31 @@
+name: Exécution des scripts bash
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  run-scripts:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Cloner le dépôt
+      uses: actions/checkout@v3
+
+    - name: Donner les droits d'exécution
+      run: chmod +x scripts/*.sh
+
+    - name: Exécuter langues.sh
+      run: ./scripts/langues.sh
+
+    - name: Exécuter tranche_age.sh (test avec 30)
+      run: echo "30" | ./scripts/tranche_age.sh
+
+    - name: Exécuter valeur.sh (test avec 15 puis 25)
+      run: |
+        echo "15" > input.txt
+        echo "25" >> input.txt
+        ./scripts/valeur.sh < input.txt
+
